@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!-- Two OpenRobot actuators on one CAN bus, as a minimal example.
+     xacro two_joints.urdf.xacro id1:=1 id2:=2 mode:=mit channel:=can0 -->
+<robot name="openrobot_two_joints" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="interface" default="socketcan"/>
+  <xacro:arg name="channel" default="can0"/>
+  <xacro:arg name="mode" default="mit"/>
+  <xacro:arg name="id1" default="1"/>
+  <xacro:arg name="id2" default="2"/>
+  <xacro:arg name="pole_pairs1" default="0"/>
+  <xacro:arg name="pole_pairs2" default="0"/>
+  <xacro:property name="mode" value="$(arg mode)"/>
+
+  <link name="base"/>
+  <xacro:macro name="actuator" params="name xyz">
+    <link name="${name}_link"/>
+    <joint name="${name}" type="continuous">
+      <parent link="base"/>
+      <child link="${name}_link"/>
+      <origin xyz="${xyz}"/>
+      <axis xyz="0 0 1"/>
+    </joint>
+  </xacro:macro>
+  <xacro:actuator name="joint1" xyz="0 0 0"/>
+  <xacro:actuator name="joint2" xyz="0.2 0 0"/>
+
+  <xacro:macro name="ros2_joint" params="name id pole_pairs">
+    <joint name="${name}">
+      <param name="id">${id}</param>
+      <param name="mode">${mode}</param>
+      <!-- mit: kp in Nm/rad, kd in Nm s/rad; position: max_velocity in rad/s -->
+      <param name="kp">10.0</param>
+      <param name="kd">0.5</param>
+      <param name="max_velocity">1.0</param>
+      <!-- velocity_erpm: motor pole pairs, to convert rad/s to electrical RPM -->
+      <param name="pole_pairs">${pole_pairs}</param>
+      <!-- mit: the position at start becomes 0 rad -->
+      <param name="zero_on_activate">true</param>
+      <xacro:if value="${mode == 'mit'}">
+        <command_interface name="position"/>
+        <command_interface name="velocity"/>
+        <command_interface name="effort"/>
+      </xacro:if>
+      <xacro:if value="${mode in ('velocity', 'velocity_erpm')}">
+        <command_interface name="velocity"/>
+      </xacro:if>
+      <xacro:if value="${mode == 'position'}">
+        <command_interface name="position"/>
+      </xacro:if>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+      <state_interface name="effort"/>
+    </joint>
+  </xacro:macro>
+
+  <ros2_control name="openrobot_bus" type="system">
+    <hardware>
+      <plugin>openrobot_motor_hardware/OpenRobotMotorSystem</plugin>
+      <param name="interface">$(arg interface)</param>
+      <param name="channel">$(arg channel)</param>
+      <param name="timeout_ms">5</param>
+      <param name="max_missed">3</param>
+    </hardware>
+    <xacro:ros2_joint name="joint1" id="$(arg id1)" pole_pairs="$(arg pole_pairs1)"/>
+    <xacro:ros2_joint name="joint2" id="$(arg id2)" pole_pairs="$(arg pole_pairs2)"/>
+  </ros2_control>
+</robot>

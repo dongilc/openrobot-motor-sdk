@@ -1,0 +1,7 @@
+<library path="openrobot_motor_hardware">
+  <class name="openrobot_motor_hardware/OpenRobotMotorSystem"
+         type="openrobot_motor_hardware::OpenRobotMotorSystem"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>OpenRobot SPN motor controllers on one CAN bus (SocketCAN, PCAN or slcan).</description>
+  </class>
+</library>

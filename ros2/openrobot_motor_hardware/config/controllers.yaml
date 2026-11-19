@@ -1,0 +1,23 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 200  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    # mode mit or position: follow trajectories (position command)
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    # mode velocity: publish [rad/s, rad/s] to /velocity_controller/commands
+    velocity_controller:
+      type: forward_command_controller/ForwardCommandController
+
+joint_trajectory_controller:
+  ros__parameters:
+    joints: [joint1, joint2]
+    command_interfaces: [position]
+    state_interfaces: [position, velocity]
+
+velocity_controller:
+  ros__parameters:
+    joints: [joint1, joint2]
+    interface_name: velocity

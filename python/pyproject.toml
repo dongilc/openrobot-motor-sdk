@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openrobot-motor"
+version = "0.1.0"
+description = "Drive OpenRobot SPN motor controllers over CAN (slcan, PCAN)"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "OpenRobot Co., Ltd.", email = "contact@openrobot-ai.com" }]
+requires-python = ">=3.8"
+dependencies = ["python-can>=4.2", "pyserial>=3.5"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.setuptools]
+packages = ["openrobot_motor"]

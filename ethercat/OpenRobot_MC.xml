@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EtherCATInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Vendor>
+    <Id>#x00524F42</Id>
+    <Name>Motor Controller</Name>
+  </Vendor>
+  <Descriptions>
+    <Groups>
+      <Group>
+        <Type>MotorController</Type>
+        <Name>Motor Controller</Name>
+      </Group>
+    </Groups>
+    <Devices>
+      <Device Physics="YY">
+        <Type ProductCode="#x00000001" RevisionNo="#x00000001">OpenRobot MC</Type>
+        <Name>OpenRobot MC</Name>
+        <GroupType>MotorController</GroupType>
+        <Fmmu>Outputs</Fmmu>
+        <Fmmu>Inputs</Fmmu>
+        <Fmmu>MBoxState</Fmmu>
+        <Sm DefaultSize="128" StartAddress="#x1000" ControlByte="#x26" Enable="1">MBoxOut</Sm>
+        <Sm DefaultSize="128" StartAddress="#x1080" ControlByte="#x22" Enable="1">MBoxIn</Sm>
+        <Sm DefaultSize="17" StartAddress="#x1100" ControlByte="#x24" Enable="1">Outputs</Sm>
+        <Sm DefaultSize="20" StartAddress="#x1180" ControlByte="#x20" Enable="1">Inputs</Sm>
+        <RxPdo Fixed="true" Mandatory="true" Sm="2">
+          <Index>#x1600</Index>
+          <Name>Motor Control</Name>
+          <Entry>
+            <Index>#x7000</Index>
+            <SubIndex>1</SubIndex>
+            <BitLen>8</BitLen>
+            <Name>control_mode</Name>
+            <DataType>USINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x7000</Index>
+            <SubIndex>2</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>target_position</Name>
+            <DataType>DINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x7000</Index>
+            <SubIndex>3</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>target_velocity</Name>
+            <DataType>DINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x7000</Index>
+            <SubIndex>4</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>target_torque</Name>
+            <DataType>DINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x7000</Index>
+            <SubIndex>5</SubIndex>
+            <BitLen>16</BitLen>
+            <Name>kp</Name>
+            <DataType>UINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x7000</Index>
+            <SubIndex>6</SubIndex>
+            <BitLen>16</BitLen>
+            <Name>kd</Name>
+            <DataType>UINT</DataType>
+          </Entry>
+        </RxPdo>
+        <TxPdo Fixed="true" Mandatory="true" Sm="3">
+          <Index>#x1A00</Index>
+          <Name>Motor Status</Name>
+          <Entry>
+            <Index>#x6000</Index>
+            <SubIndex>1</SubIndex>
+            <BitLen>8</BitLen>
+            <Name>control_mode</Name>
+            <DataType>USINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x6000</Index>
+            <SubIndex>2</SubIndex>
+            <BitLen>8</BitLen>
+            <Name>fault_code</Name>
+            <DataType>USINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x6000</Index>
+            <SubIndex>3</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>actual_position</Name>
+            <DataType>DINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x6000</Index>
+            <SubIndex>4</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>actual_velocity</Name>
+            <DataType>DINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x6000</Index>
+            <SubIndex>5</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>actual_torque</Name>
+            <DataType>DINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x6000</Index>
+            <SubIndex>6</SubIndex>
+            <BitLen>16</BitLen>
+            <Name>bus_voltage</Name>
+            <DataType>UINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x6000</Index>
+            <SubIndex>7</SubIndex>
+            <BitLen>8</BitLen>
+            <Name>temp_motor</Name>
+            <DataType>SINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x6000</Index>
+            <SubIndex>8</SubIndex>
+            <BitLen>8</BitLen>
+            <Name>temp_mosfet</Name>
+            <DataType>SINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x6000</Index>
+            <SubIndex>9</SubIndex>
+            <BitLen>16</BitLen>
+            <Name>encoder_pos</Name>
+            <DataType>UINT</DataType>
+          </Entry>
+        </TxPdo>
+        <Mailbox DataLinkLayer="true">
+          <CoE SdoInfo="true" PdoAssign="false" PdoConfig="false" CompleteAccess="false"/>
+        </Mailbox>
+        <Eeprom>
+          <ByteSize>256</ByteSize>
+          <ConfigData>80000000</ConfigData>
+        </Eeprom>
+        <Dc>
+          <OpMode>
+            <Name>FreeRun</Name>
+            <Desc>Free Running (no DC sync)</Desc>
+          </OpMode>
+          <OpMode>
+            <Name>DC-Synchron</Name>
+            <Desc>DC SYNC0</Desc>
+            <AssignActivate>#x0300</AssignActivate>
+            <CycleTimeSync0 Factor="1">0</CycleTimeSync0>
+          </OpMode>
+        </Dc>
+      </Device>
+    </Devices>
+  </Descriptions>
+</EtherCATInfo>
